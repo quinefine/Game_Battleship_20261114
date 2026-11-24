@@ -365,6 +365,7 @@ namespace Game_Battleship
                     else
                     {
                         game.SwitchTurn();
+                        //change
                     }
                 }
             }
