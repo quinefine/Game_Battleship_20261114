@@ -23,6 +23,7 @@ namespace Game_Battleship
     {
         public BoardGame(Player playerOne, Player playerTwo)
         {
+            //this is a comment
             InitializeComponent();
             game.PlayerOne = playerOne;
             game.PlayerTwo = playerTwo;
