@@ -91,5 +91,9 @@ namespace Game_Battleship
         {
 
         }
+
+        public HumanPlayer(string name, Board oceanBoard, Board targetBoard) : base(name, oceanBoard, targetBoard)
+        {
+        }
     }
 }
