@@ -11,18 +11,11 @@ namespace Game_Battleship
 {
     public class Board
     {
-        public int[,] coordinates { get; set; } = new int[10, 10];
 
-        // TODO: Show team coordinateLabels array
-
-        public Tile[,] tiles { get; set; } = new Tile[10, 10];
-
-        // Allows the user to place ships on the board
-        
-        public bool PlaceShips(Board oceanBoard, Ship ship, int row, int column)
-        {
-            bool isValidSpot = true;
-            // Makes sure the ship is placed within the board radius
+        public Board()
+        {  
+        }
+        private int[,] coordinates = new int[10, 10];
 
             public void SetCoordinates(int row, int col, int value)
             {

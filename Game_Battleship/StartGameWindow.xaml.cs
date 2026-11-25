@@ -132,7 +132,7 @@ namespace Game_Battleship
             }
         }
 
-        private void btnCPUPlayer_Click2(object sender, RoutedEventArgs e)
+        private void SetPlayer2CPU()
         {
             lblDifficulty2.Visibility = 0;
             lbxDifficulty2.Visibility = 0;
@@ -156,20 +156,37 @@ namespace Game_Battleship
 
         private Player DeterminePlayer(int playerNumber)
         {
-            //clicking place ships will take what is in the txtName field and save that as the players name if it is not null
-            //if null, player name is Player 1 or Player 2, but this is not needed yet
 
-            string p1Name = txtPlayerName.Text;
-            string p2Name = txtPlayerName2.Text;
 
-            //then the start game window will close and a new window with the player's ocean grid appears for them to place their ships
+            if (playerNumber == 1)
+            {
+                
+                Player playerOne;
+                if (lblPlayerName.Visibility == Visibility.Visible)
+                {
+                    playerOne = new HumanPlayer(txtPlayerName.Text, new Board(), new Board());
+                }
+                else
+                {
+                    playerOne = new CPUPlayer(Enum.GetName(typeof(Difficulty), lbxDifficulty.SelectedIndex) + " CPU", new Board(), new Board());
+                }
 
-            BoardGame p1Ocean = new BoardGame();
-            p1Ocean.Show();
-            
-            
-            
-            this.Close();
+                return playerOne;
+            }
+            else
+            {
+                Player playerTwo;
+                if (lblPlayerName2.Visibility == Visibility.Visible)
+                {
+                    playerTwo = new HumanPlayer(txtPlayerName2.Text, new Board(), new Board());
+                }
+                else
+                {
+                    playerTwo = new CPUPlayer(Enum.GetName(typeof(Difficulty), lbxDifficulty2.SelectedIndex) + " CPU", new Board(), new Board());
+                }
+
+                return playerTwo;
+            }
         }
     }
 }
