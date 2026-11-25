@@ -23,7 +23,6 @@ namespace Game_Battleship
     {
         public BoardGame(Player playerOne, Player playerTwo)
         {
-            //this is a comment
             InitializeComponent();
             game.PlayerOne = playerOne;
             game.PlayerTwo = playerTwo;
@@ -68,9 +67,7 @@ namespace Game_Battleship
             CreateBoard("playerOneTarget", "Player 1 Target", 17, 1, game.PlayerOne.TargetBoard);
             CreateBoard("playerTwoTarget", "Player 2 Target", 17, 13, game.PlayerTwo.TargetBoard);
 
-
-            game.PlayerTwo.OceanBoard.changeVisibilty();
-            game.PlayerTwo.TargetBoard.changeVisibilty();
+            changePlayerTwoVisibility();
 
             // Make concede button, set text, location and tie click event to method
             createActionButton();
@@ -79,12 +76,13 @@ namespace Game_Battleship
             checkPlayerOne();
         }
 
-        private void checkPlayerOne()
+        private async void checkPlayerOne()
         {
             // Places PLAYER ONE ships first in order from largest to smallest randomly
             if (game.PlayerOne is CPUPlayer)
             {
                 game.PlayerOne.PlaceShip();
+                await Task.Delay(TimeSpan.FromSeconds(.1)); // removing this delay makes the RNG for boat placement for 2 CPU games the same
                 btnAction_Click(actionButton, new RoutedEventArgs());
             }
         }
@@ -96,8 +94,11 @@ namespace Game_Battleship
             {
                 game.PlayerTwo.PlaceShip();
                 btnAction_Click(actionButton, new RoutedEventArgs());
+                actionButton.IsEnabled = true;
             }
         }
+
+        #region create board
 
         private void createGrid()
         {
@@ -160,19 +161,6 @@ namespace Game_Battleship
             action.IsEnabled = false;
             action.Click += btnAction_Click;
             actionButton = action;
-        }
-
-        private void updateWinLabels()
-        {
-            if (game.PlayerOne is HumanPlayer)
-            {
-                playerOneWinCountLabel.Content = $"{game.PlayerOne.Name} \t Wins: {game.PlayerOne.WinCount}";
-            }
-            if (game.PlayerTwo is HumanPlayer)
-            {
-                playerTwoWinCountLabel.Content = $"{game.PlayerTwo.Name} \t Wins: {game.PlayerTwo.WinCount}";
-            }
-            
         }
 
         public void CreateBoard(string boardName, string boardTitle, int rowStart, int colStart, Board currentBoard)
@@ -290,14 +278,48 @@ namespace Game_Battleship
                 MyGrid.Children.Add(button);
             }
         }
+        #endregion
 
-        private void tile_Click(object sender, RoutedEventArgs e)
+        private void updateWinLabels()
+        {
+            if (game.PlayerOne is HumanPlayer)
+            {
+                playerOneWinCountLabel.Content = $"{game.PlayerOne.Name} \t Wins: {game.PlayerOne.WinCount}";
+            }
+            if (game.PlayerTwo is HumanPlayer)
+            {
+                playerTwoWinCountLabel.Content = $"{game.PlayerTwo.Name} \t Wins: {game.PlayerTwo.WinCount}";
+            }
+            
+        }
+
+        private bool CheckPlacePhaseEnd(Player player)
+        {
+            bool done = false;
+            int placed = 0;
+            foreach (Ship s in player.Ships)
+            {
+                if (s.IsPlaced == true)
+                {
+                    placed++;
+                }
+            }
+            if (placed == 5)
+            {
+                done = true;
+            }
+            return done;
+        }
+
+        #region other click events
+
+        private async void tile_Click(object sender, RoutedEventArgs e)
         {
 
             Tile clickedTile = (Tile)sender;
             // Converts displayed coordinates to array indexes
-            int row = clickedTile.AlphabetToNumber(clickedTile.YLocation)-1;
-            int column = int.Parse(clickedTile.XLocation)-1;
+            int row = clickedTile.AlphabetToNumber(clickedTile.YLocation) - 1;
+            int column = int.Parse(clickedTile.XLocation) - 1;
 
             Ship ship;
 
@@ -311,7 +333,7 @@ namespace Game_Battleship
                     if (game.PlayerOne.PlaceShip(game.PlayerOne.OceanBoard, game.PlayerOne.Ships[playerOneShipIndex], row, column))
                     {
                         playerOneShipIndex++;
-                        if(CheckPlacePhaseEnd(game.PlayerOne))
+                        if (CheckPlacePhaseEnd(game.PlayerOne))
                         {
                             actionButton.IsEnabled = true;
                         }
@@ -346,7 +368,7 @@ namespace Game_Battleship
             {
                 int tileContents;
                 currentBoard = game.PlayerOne.TargetBoard;
-                tileContents = game.PlayerTwo.OceanBoard.GetCoordinateValue(row,column);
+                tileContents = game.PlayerTwo.OceanBoard.GetCoordinateValue(row, column);
                 if (tileContents == 0) // 0 is water
                 {
                     clickedTile.Background = Brushes.White;
@@ -355,7 +377,7 @@ namespace Game_Battleship
                 }
                 else
                 {
-                    Ship hitShip = game.PlayerOne.Ships[tileContents-1];
+                    Ship hitShip = game.PlayerOne.Ships[tileContents - 1];
                     clickedTile.Content = hitShip.Name;
                     clickedTile.Background = Brushes.Red;
                     clickedTile.Foreground = new SolidColorBrush(Color.FromRgb(0, 0, 0));
@@ -380,9 +402,11 @@ namespace Game_Battleship
                     }
                 }
 
-                actionButton.IsEnabled = true;
                 game.setGameState("Inbetween 1");
+                await Task.Delay(TimeSpan.FromSeconds(1.3));
+                actionButton.IsEnabled = true;
                 actionButton.Content = "Show Board";
+                changePlayerOneVisibility();
                 clickedTile.Click -= tile_Click;
             }
 
@@ -394,12 +418,12 @@ namespace Game_Battleship
                 if (tileContents == 0)
                 {
                     clickedTile.Background = Brushes.White;
-                    clickedTile.Foreground = new SolidColorBrush(Color.FromRgb(0,0,0));
+                    clickedTile.Foreground = new SolidColorBrush(Color.FromRgb(0, 0, 0));
                     clickedTile.Content = "Miss";
                 }
                 else
                 {
-                    Ship hitShip = game.PlayerTwo.Ships[tileContents-1]; // tile contents can hold water, ships don't, -1 is used to line these up
+                    Ship hitShip = game.PlayerTwo.Ships[tileContents - 1]; // tile contents can hold water, ships don't, -1 is used to line these up
                     clickedTile.Content = hitShip.Name;
                     clickedTile.Background = Brushes.Red;
                     clickedTile.Foreground = new SolidColorBrush(Color.FromRgb(0, 0, 0));
@@ -424,9 +448,11 @@ namespace Game_Battleship
                     }
                 }
 
-                actionButton.IsEnabled = true;
+                await Task.Delay(TimeSpan.FromSeconds(1.3));
                 game.setGameState("Inbetween 2");
+                actionButton.IsEnabled = true;
                 actionButton.Content = "Show Board";
+                changePlayerTwoVisibility();
                 clickedTile.Click -= tile_Click;
             }
         }
@@ -436,22 +462,42 @@ namespace Game_Battleship
             //concede closes the game
             //To Do: Prompt user with yes no to quit
             this.Close();
+
+            //DEV TOOLS
+
+            //show all boards
+
+            //if (game.PlayerOne.OceanBoard.getTile(1, 1).Visibility == Visibility.Collapsed)
+            //{
+            //    changePlayerOneVisibility();
+            //}
+            //if (game.PlayerTwo.OceanBoard.getTile(1, 1).Visibility == Visibility.Collapsed)
+            //{
+            //    changePlayerTwoVisibility();
+            //}
+
+            //end game and update labels
+
+            //game.EndGame(game.PlayerOne);
+            //updateWinLabels();
         }
 
         private void btnAction_Click(object sender, RoutedEventArgs e)
         {
             switch (game.getGameState())
             {
-                case "Player 1 placing": 
+                case "Player 1 placing":
                     game.setGameState("Player 2 placing");
                     actionButton.Content = "Start game";
-                    changeAllVisibility();
+                    changePlayerOneVisibility();
+                    changePlayerTwoVisibility();
                     checkPlayerTwo();
                     break;
                 case "Player 2 placing":
-                    game.setGameState("Inbetween2");
+                    game.setGameState("Player 1 attacking");
                     actionButton.Content = "Show board";
-                    changeAllVisibility();
+                    changePlayerOneVisibility();
+                    changePlayerTwoVisibility();
                     break;
                 //case "Player 1 attacking":
                 //    game.setGameState("Inbetween 1");
@@ -460,7 +506,7 @@ namespace Game_Battleship
                 case "Inbetween 1":
                     game.setGameState("Player 2 attacking");
                     actionButton.Content = "Choose your fighter";
-                    changeAllVisibility();
+                    changePlayerTwoVisibility();
                     break;
                 //case "Player 2 attacking":
                 //    game.setGameState("Inbetween 2");
@@ -469,29 +515,15 @@ namespace Game_Battleship
                 case "Inbetween 2":
                     game.setGameState("Player 1 attacking");
                     actionButton.Content = "Choose your fighter";
-                    changeAllVisibility();
+                    changePlayerOneVisibility();
                     break;
             }
             actionButton.IsEnabled = false;
         }
 
-        private bool CheckPlacePhaseEnd(Player player)
-        {
-            bool done = false;
-            int placed = 0;
-            foreach (Ship s in player.Ships)
-            {
-                if (s.IsPlaced == true)
-                {
-                    placed++;
-                }
-            }
-            if (placed == 5)
-            {
-                done = true;
-            }
-            return done;
-        }
+        #endregion
+
+        #region setShipButtons
 
         private void setDestroyer_Click(object sender, RoutedEventArgs e)
         {
@@ -518,16 +550,21 @@ namespace Game_Battleship
             currentShip = 4;
         }
 
-        private void changeAllVisibility()
+        #endregion
+
+        #region changeVisibility
+        private void changePlayerOneVisibility()
         {
             game.PlayerOne.OceanBoard.changeVisibilty();
             game.PlayerOne.TargetBoard.changeVisibilty();
+        }
+
+        private void changePlayerTwoVisibility()
+        {
             game.PlayerTwo.OceanBoard.changeVisibilty();
             game.PlayerTwo.TargetBoard.changeVisibilty();
         }
 
-
-        //still need to add:
-        //Done placing ships button while gameState = placing
+        #endregion
     }
 }
