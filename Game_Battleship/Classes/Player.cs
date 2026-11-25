@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+//make change and save it in repo. go to 'git changes' next to 'solution explorer'
 namespace Game_Battleship
 {
     public class Player
