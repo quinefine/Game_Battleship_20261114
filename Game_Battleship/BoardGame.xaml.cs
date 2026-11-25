@@ -50,6 +50,8 @@ namespace Game_Battleship
             // TODO done
             // Creates the labels above the boards that will manage the scoring
 
+            //adding a comment about things 
+
             createWinCountLabels();
 
             updateWinLabels();
