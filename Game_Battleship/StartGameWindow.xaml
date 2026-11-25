@@ -19,8 +19,8 @@
         <Button x:Name="btnPlaceShips" Content="Place Ships" HorizontalAlignment="Center" Margin="0,258,0,0" VerticalAlignment="Top" Width="100" Click="btnPlaceShips_Click" Visibility="Collapsed"/>
         <Label x:Name="lblDifficulty" Content="CPU Difficulty:" HorizontalAlignment="Left" Margin="78,135,0,0" VerticalAlignment="Top" Visibility="Collapsed"/>
         <Label x:Name="lblPlayer1" Content="Player 1" HorizontalAlignment="Left" Margin="152,22,0,0" VerticalAlignment="Top" Width="84" FontSize="16"/>
-        <Button x:Name="btnHumanPlayer2" Content="Human Player" HorizontalAlignment="Left" Margin="470,67,0,0" VerticalAlignment="Top" Width="91" Click="btnHumanPlayer_Click2"/>
-        <Button x:Name="btnCPUPlayer2" Content="CPU Player" HorizontalAlignment="Left" Margin="607,66,0,0" VerticalAlignment="Top" Width="91" Click="btnCPUPlayer_Click2"/>
+        <Button x:Name="btnHumanPlayer2" Content="Human Player" HorizontalAlignment="Left" Margin="470,67,0,0" VerticalAlignment="Top" Width="91" Click="btnHumanPlayer2_Click"/>
+        <Button x:Name="btnCPUPlayer2" Content="CPU Player" HorizontalAlignment="Left" Margin="607,66,0,0" VerticalAlignment="Top" Width="91" Click="btnCPUPlayer2_Click"/>
         <ListBox x:Name="lbxDifficulty2" Margin="557,115,127,238" HorizontalContentAlignment="Center" Visibility="Collapsed">
             <ListBoxItem Content="Easy"/>
             <ListBoxItem Content="Medium"/>

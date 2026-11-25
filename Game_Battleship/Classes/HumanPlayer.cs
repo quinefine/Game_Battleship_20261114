@@ -8,11 +8,14 @@ namespace Game_Battleship
 {
     public class HumanPlayer : Player
     {
-        public string name { get; set; }
 
         public void PlaceShip(Ship Ship, int x, int y)
         {
 
+        }
+
+        public HumanPlayer(string name, Board oceanBoard, Board targetBoard) : base(name, oceanBoard, targetBoard)
+        {
         }
     }
 }

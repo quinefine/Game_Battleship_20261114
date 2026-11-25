@@ -21,34 +21,15 @@ namespace Game_Battleship
     /// </summary>
     public partial class BoardGame : Window
     {
-        public BoardGame()
+        public BoardGame(Player playerOne, Player PlayerTwo)
         {
             InitializeComponent();
+            game.playerOne = playerOne;
+            game.playerTwo = PlayerTwo;
         }
-
         // Creates a new game object
 
-        Game game = new Game();
-
-        // Gives each player their fleet
-
-        public Ship[] playerOneShips =
-        {
-            new Ship { name = "Destroyer", size = 2, id = 1},
-            new Ship { name = "Submarine", size = 3, id = 2 },
-            new Ship { name = "Cruiser", size = 3, id = 3 },
-            new Ship { name = "Battleship", size = 4, id = 4 },
-            new Ship { name = "Carrier", size = 5, id = 5 }
-        };
-
-        public Ship[] playerTwoShips =
-        {
-            new Ship { name = "Destroyer", size = 2, id = 1},
-            new Ship { name = "Submarine", size = 3, id = 2 },
-            new Ship { name = "Cruiser", size = 3, id = 3 },
-            new Ship { name = "Battleship", size = 4, id = 4 },
-            new Ship { name = "Carrier", size = 5, id = 5 }
-        };
+        Game game = new Game("Placing");
 
         // Creates the counter to allow players to place the ships in a fixed linear order        (TEMPORARY!)
 
@@ -60,11 +41,52 @@ namespace Game_Battleship
         private Label playerOneWinCountLabel;
         private Label playerTwoWinCountLabel;
 
+
         private void BoardGameWindow_Loaded(object sender, RoutedEventArgs e)
         {
 
             // set up rows and columns
 
+            createGrid();
+
+            // TODO done
+            // Creates the labels above the boards that will manage the scoring
+
+            createWinCountLabels();
+
+            updateWinLabels();
+
+            // Creates the 4 boards required to play battleship
+
+            CreateBoard("playerOneOcean", "Player 1 Ocean", 3, 1, game.playerOne.oceanBoard);
+            CreateBoard("playerOneTarget", "Player 1 Target", 3, 13, game.playerOne.targetBoard);
+
+            CreateBoard("playerTwoOcean", "Player 2 Ocean", 16, 1, game.playerTwo.oceanBoard);
+            CreateBoard("playerTwoTarget", "Player 2 Target", 16, 13, game.playerTwo.targetBoard);
+
+            //TODO done
+            // Create the randomizer
+
+            // Places PLAYER ONE ships first in order from largest to smallest randomly
+
+            if (placeShips(game.playerOne))
+            {
+                playerOneShipIndex = game.playerOne.ships.Length;
+            }
+
+            // Places PLAYER TWO ships first in order from largest to smallest randomly
+            if (placeShips(game.playerTwo))
+            {
+                playerTwoShipIndex = game.playerTwo.ships.Length;
+            }
+
+            // Make concede button, set text, location and tie click event to method
+
+            createConcedeButton();
+        }
+
+        private void createGrid()
+        {
             for (int i = 0; i < 26; i++)
             {
                 MyGrid.RowDefinitions.Add(new RowDefinition());
@@ -74,15 +96,10 @@ namespace Game_Battleship
             {
                 MyGrid.ColumnDefinitions.Add(new ColumnDefinition());
             }
+        }
 
-            // Creates both players
-
-            game.playerOne = new HumanPlayer();
-            game.playerTwo = new HumanPlayer();
-
-            // TODO
-            // Creates the labels above the boards that will manage the scoring
-
+        private void createWinCountLabels()
+        {
             playerOneWinCountLabel = new Label();
             playerTwoWinCountLabel = new Label();
 
@@ -99,74 +116,10 @@ namespace Game_Battleship
 
             MyGrid.Children.Add(playerOneWinCountLabel);
             MyGrid.Children.Add(playerTwoWinCountLabel);
+        }
 
-            game.WinCountsChanged += Game_WinCountsChanged;
-            UpdateWinCountLabels();
-
-            // Sets the game state to the placing phase
-
-            game.gameState = "Placing";
-
-            // Set player variables
-
-            game.playerOne.name = "Player 1";
-            game.playerTwo.name = "Player 2";
-
-            // Creates boards for each player
-
-            game.playerOne.oceanBoard = new Board();
-            game.playerOne.targetBoard = new Board();
-
-            game.playerTwo.oceanBoard = new Board();
-            game.playerTwo.targetBoard = new Board();
-
-            // Creates arrays for boards
-
-            game.playerOne.oceanBoard.tiles = new Tile[10, 10];
-            game.playerTwo.oceanBoard.tiles = new Tile[10, 10];
-            game.playerOne.targetBoard.tiles = new Tile[10, 10];
-            game.playerTwo.targetBoard.tiles = new Tile[10, 10];
-
-            // Creates the 4 boards required to play battleship
-
-            CreateBoard("playerOneOcean", "Player 1 Ocean", 3, 1, game.playerOne.oceanBoard);
-            CreateBoard("playerOneTarget", "Player 1 Target", 3, 13, game.playerOne.targetBoard);
-
-            CreateBoard("playerTwoOcean", "Player 2 Ocean", 16, 1, game.playerTwo.oceanBoard);
-            CreateBoard("playerTwoTarget", "Player 2 Target", 16, 13, game.playerTwo.targetBoard);
-
-            //TODO
-            // Create the randomizer
-
-            Random randomizer = new Random();
-
-            // Places PLAYER ONE ships first in order from largest to smallest randomly
-
-            foreach (Ship ship in playerOneShips.OrderByDescending(s => s.size))
-            {
-                if (!game.playerOne.oceanBoard.RandomizeShipPlacement(game.playerOne.oceanBoard, ship, randomizer))
-                {
-                    return;
-                }
-            }
-
-            // Places PLAYER TWO ships first in order from largest to smallest randomly
-
-            foreach (Ship ship in playerTwoShips.OrderByDescending(s => s.size))
-            {
-                if (!game.playerTwo.oceanBoard.RandomizeShipPlacement(game.playerTwo.oceanBoard, ship, randomizer))
-                {
-                    return;
-                }
-            }
-
-            // Saves the coordinates for tiles
-
-            playerOneShipIndex = playerOneShips.Length;
-            playerTwoShipIndex = playerTwoShips.Length;
-
-            // Make concede button, set text, location and tie click event to method
-
+        private void createConcedeButton()
+        {
             Button concede = new Button();
             concede.Content = "Concede";
 
@@ -177,18 +130,29 @@ namespace Game_Battleship
             concede.HorizontalAlignment = HorizontalAlignment.Center;
             MyGrid.Children.Add(concede);
             concede.Click += btnConcede_Click;
-
         }
 
-        private void UpdateWinCountLabels()
+        private bool placeShips(Player player)
         {
-            playerOneWinCountLabel.Content = $"Player One Wins: {Game.playerOneWins}";
-            playerTwoWinCountLabel.Content = $"Player Two Wins: {Game.playerTwoWins}";
+            Random rand = new Random();
+            if (player.GetType().ToString() == "Game_Battleship.CPUPlayer")
+            {
+                foreach (Ship ship in player.ships.OrderByDescending(s => s.size))
+                {
+                    if (!player.oceanBoard.RandomizeShipPlacement(player.oceanBoard, ship, rand))
+                    {
+                        break;
+                    }
+                }
+                return true;
+            }
+            return false;
         }
 
-        private void Game_WinCountsChanged(object sender, EventArgs e)
+        private void updateWinLabels()
         {
-            UpdateWinCountLabels();
+            playerOneWinCountLabel.Content = $"{game.playerOne.name} \t Wins: {game.playerOne.winCount}";
+            playerTwoWinCountLabel.Content = $"{game.playerTwo.name} \t Wins: {game.playerTwo.winCount}";
         }
 
         public void CreateBoard(string boardName, string boardTitle, int rowStart, int colStart, Board currentBoard)
@@ -209,7 +173,7 @@ namespace Game_Battleship
 
             MyGrid.Children.Add(title);
 
-            // TODO
+            // TODO done
             // Generates the row letter coordinates (A-J)
 
             for (int r = 0; r < 10; r++)
@@ -269,10 +233,9 @@ namespace Game_Battleship
 
                     //put tile into array (to get it in the future)
 
-                    currentBoard.tiles[r,c] = tile;
+                    currentBoard.addTile(tile);
 
                     // Names the tile
-                    tile.Name = boardName + "Tile_" + r + "_" + c;
                     tile.Click += tile_Click;
 
                     MyGrid.Children.Add(tile);
@@ -289,9 +252,9 @@ namespace Game_Battleship
             int row = clickedTile.AlphabetToNumber(clickedTile.yLocation)-1;
             int column = int.Parse(clickedTile.xLocation)-1;
 
-            Ship ship = new Ship();
+            Ship ship;
 
-            Board currentBoard = new Board();
+            Board currentBoard;
             // Select the player and their next ship from the clicked ocean board
 
 
@@ -302,7 +265,7 @@ namespace Game_Battleship
                 currentBoard = game.playerOne.oceanBoard;
                 if (playerOneShipIndex < 5)
                 {
-                    ship = playerOneShips[playerOneShipIndex];
+                    ship = game.playerOne.ships[playerOneShipIndex];
                     if (currentBoard.PlaceShips(currentBoard, ship, row, column))
                     {
                         playerOneShipIndex++;
@@ -319,7 +282,7 @@ namespace Game_Battleship
                 currentBoard = game.playerTwo.oceanBoard;
                 if (playerTwoShipIndex < 5)
                 {
-                    ship = playerTwoShips[playerTwoShipIndex];
+                    ship = game.playerTwo.ships[playerTwoShipIndex];
                     if (currentBoard.PlaceShips(currentBoard, ship, row, column))
                     {
                         playerTwoShipIndex++;
@@ -336,21 +299,21 @@ namespace Game_Battleship
                 int tileContents;
                 currentBoard = game.playerOne.targetBoard;
                 tileContents = game.playerTwo.oceanBoard.coordinates[row, column];
-                if (tileContents == 0)
+                if (tileContents == 0) // 0 is water
                 {
                     clickedTile.Background = Brushes.White;
                     clickedTile.Foreground = new SolidColorBrush(Color.FromRgb(0, 0, 0));
                     clickedTile.Content = "Miss";
                 }
-                else if (clickedTile.Content != "")
+                else
                 {
-                    Ship hitShip = playerTwoShips[tileContents-1];
+                    Ship hitShip = game.playerOne.ships[tileContents-1];
                     clickedTile.Content = hitShip.name;
                     clickedTile.Background = Brushes.Red;
                     clickedTile.Foreground = new SolidColorBrush(Color.FromRgb(0, 0, 0));
                     hitShip.UpdateDamage();
                     int sunkShips = 0;
-                    foreach (Ship s in playerTwoShips)
+                    foreach (Ship s in game.playerOne.ships)
                     {
                         if (s.isSunk)
                         {
@@ -360,12 +323,12 @@ namespace Game_Battleship
 
                     if (sunkShips == 5)
                     {
-                        game.EndGame(1);
+                        game.EndGame(game.playerOne);
+                        updateWinLabels();
                     }
                     else
                     {
                         game.SwitchTurn();
-                        //change
                     }
                 }
             }
@@ -383,13 +346,13 @@ namespace Game_Battleship
                 }
                 else
                 {
-                    Ship hitShip = playerOneShips[tileContents-1];
+                    Ship hitShip = game.playerTwo.ships[tileContents-1]; // tile contents can hold water, ships don't, -1 is used to line these up
                     clickedTile.Content = hitShip.name;
                     clickedTile.Background = Brushes.Red;
                     clickedTile.Foreground = new SolidColorBrush(Color.FromRgb(0, 0, 0));
                     hitShip.UpdateDamage();
                     int sunkShips = 0;
-                    foreach (Ship s in playerOneShips)
+                    foreach (Ship s in game.playerTwo.ships)
                     {
                         if (s.isSunk)
                         {
@@ -399,24 +362,17 @@ namespace Game_Battleship
 
                     if (sunkShips == 5)
                     {
-                        game.EndGame(2);
+                        game.EndGame(game.playerTwo);
+                        updateWinLabels();
+                    }
+                    else
+                    {
+                        game.SwitchTurn();
                     }
                 }
             }
+            clickedTile.Click -= tile_Click;
         }
-
-        //public void Update
-
-        //public bool CheckSpotForShip(Board oceanBoard, Ship ship, int row, int col)
-        //{
-        //    bool spotTaken = false;
-        //    if (!oceanBoard.PlaceShips(ship, row, col))
-        //    {
-        //        spotTaken = true;
-        //    }
-
-        //    return spotTaken;
-        //}
 
         private void btnConcede_Click(object sender, RoutedEventArgs e)
         {

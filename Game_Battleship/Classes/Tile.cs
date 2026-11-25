@@ -13,7 +13,7 @@ namespace Game_Battleship
         public string xLocation;
         public string yLocation;
         public string location;
-        public bool isChosen = false;
+        //public bool isChosen = false;
         public void getLocation()
         {
             MessageBox.Show($"{yLocation}{xLocation}");

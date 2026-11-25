@@ -76,11 +76,10 @@ namespace Game_Battleship
         }
 
 
-        private void btnHumanPlayer_Click2(object sender, RoutedEventArgs e)
+        private void btnHumanPlayer2_Click(object sender, RoutedEventArgs e)
         {
             lblPlayerName2.Visibility = 0;
             txtPlayerName2.Visibility = 0;
-            btnPlaceShips.Visibility = 0;
 
             //human player button makes CPU options hidden again
             lblDifficulty2.Visibility = Visibility.Collapsed;
@@ -94,11 +93,10 @@ namespace Game_Battleship
 
         }
 
-        private void btnCPUPlayer_Click2(object sender, RoutedEventArgs e)
+        private void btnCPUPlayer2_Click(object sender, RoutedEventArgs e)
         {
             lblDifficulty2.Visibility = 0;
             lbxDifficulty2.Visibility = 0;
-            btnStartCPUGame.Visibility = 0;
 
 
             //selecting cpu button makes the human options hidden
@@ -122,15 +120,31 @@ namespace Game_Battleship
             //clicking place ships will take what is in the txtName field and save that as the players name if it is not null
             //if null, player name is Player 1 or Player 2, but this is not needed yet
 
-            string p1Name = txtPlayerName.Text;
-            string p2Name = txtPlayerName2.Text;
-
             //then the start game window will close and a new window with the player's ocean grid appears for them to place their ships
 
-            BoardGame p1Ocean = new BoardGame();
+            Player playerOne;
+            Player playerTwo;
+
+            if (lblPlayerName.Visibility == Visibility.Visible)
+            {
+                playerOne = new HumanPlayer(txtPlayerName.Text, new Board(), new Board());
+            }
+            else
+            {
+                playerOne = new CPUPlayer(lbxDifficulty.SelectedItems.ToString(), new Board(), new Board());
+            }
+
+            if (lblPlayerName2.Visibility == Visibility.Visible)
+            {
+                playerTwo = new HumanPlayer(txtPlayerName2.Text, new Board(), new Board());
+            }
+            else
+            {
+                playerTwo = new CPUPlayer(lbxDifficulty2.SelectedItems.ToString(), new Board(), new Board());
+            }
+
+            BoardGame p1Ocean = new BoardGame(playerOne, playerTwo);
             p1Ocean.Show();
-            
-            
             
             this.Close();
         }

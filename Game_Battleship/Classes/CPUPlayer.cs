@@ -19,5 +19,9 @@ namespace Game_Battleship
         {
 
         }
+
+        public CPUPlayer(string name, Board oceanBoard, Board targetBoard) : base(name, oceanBoard, targetBoard)
+        {
+        }
     }
 }

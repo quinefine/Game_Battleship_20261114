@@ -11,12 +11,23 @@ namespace Game_Battleship
 {
     public class Board
     {
+
+        public Board()
+        {  
+        }
         public int[,] coordinates { get; set; } = new int[10, 10];
 
         // TODO: Show team coordinateLabels array
 
-        public Tile[,] tiles { get; set; } = new Tile[10, 10];
-
+        private Tile[,] tiles { get; set; } = new Tile[10, 10];
+        public void addTile(Tile tile)
+        {
+            tiles[tile.AlphabetToNumber(tile.yLocation)-1, int.Parse(tile.xLocation) - 1] = tile;
+        }
+        public Tile getTile(int x, int y)
+        {
+            return tiles[x, y];
+        }
         // Allows the user to place ships on the board
         
         public bool PlaceShips(Board oceanBoard, Ship ship, int row, int column)

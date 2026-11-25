@@ -49,7 +49,6 @@ namespace Game_Battleship
             StartGameWindow p1 = new StartGameWindow();
             p1.Show();
 
-
         }
 
         private void btnClose_Click(object sender, RoutedEventArgs e)
