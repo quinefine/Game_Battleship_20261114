@@ -10,12 +10,13 @@ namespace Game_Battleship
     public class Ship
     {
 
-        public string name { get; set; }
-        public int id { get; set; } = 0;
-        public int size { get; set; }
-        public char orientation { get; set; } = 'V';
-        public int hitsTaken { get; set; } = 0;
-        public bool isSunk { get; set; } = false;
+        private string name;
+        private int id = 0;
+        private int size;
+        private char orientation = 'V';
+        private int hitsTaken = 0;
+        private bool isSunk = false;
+        private bool isPlaced = false;
 
         public void UpdateDamage()
         {
@@ -27,5 +28,46 @@ namespace Game_Battleship
             }
         }
 
+        public string Name
+        {
+            get { return this.name; }
+            set { this.name = value; }
+        }
+
+        public int Id
+        {
+            get { return this.id; }
+            set { this.id = value; }
+        }
+
+        public int Size
+        {
+            get { return this.size; }
+            set { this.size = value; }
+        }
+
+        public char Orientation
+        {
+            get { return this.orientation; }
+            set { this.orientation = value; }
+        }
+
+        public int HitsTaken
+        {
+            get { return this.hitsTaken; }
+            set { this.hitsTaken = value; }
+        }
+
+        public bool IsSunk
+        {
+            get { return this.isSunk; }
+            set { this.isSunk = value; }
+        }
+
+        public bool IsPlaced
+        {
+            get { return this.isPlaced; }
+            set { this.isPlaced = value; }
+        }
     }
 }

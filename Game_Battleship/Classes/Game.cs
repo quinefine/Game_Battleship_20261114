@@ -10,22 +10,38 @@ namespace Game_Battleship
 {
     public class Game
     {
+        public Game(string gameState)
+        {
+            this.gameState = gameState;
+        }
 
-        public HumanPlayer playerOne { get; set; }
+        private Player playerOne;
 
-        public HumanPlayer playerTwo { get; set; }
+        private Player playerTwo;
 
-        public CPUPlayer playerOneCPU { get; set; }
+        private string gameState;
+        
+            public void setGameState(string state)
+            {
+                this.gameState = state;
+            }
 
-        public CPUPlayer playerTwoCPU { get; set; }
+            public string getGameState()
+            {
+                return gameState;
+            }
 
-        public static int playerOneWins { get; set; }
+        public Player PlayerOne
+        {
+            get { return this.playerOne; } 
+            set { this.playerOne = value; }
+        }
 
-        public static int playerTwoWins { get; set; }
-
-        public string gameState { get; set; }
-
-        public event EventHandler WinCountsChanged;
+        public Player PlayerTwo
+        {
+            get { return this.playerTwo; }
+            set { this.playerTwo = value; }
+        }
 
         public void Start()
         {
@@ -34,50 +50,34 @@ namespace Game_Battleship
 
         public void SwitchTurn()
         {
-
+            //take the turns. SWITHC TEM
+            //PUSH T HE TOWNWNWNWNWW
         }
 
         // TODO: Win counts are being incremented in EndGame
 
-        public void EndGame(int winPlayer)
+        public void EndGame(Player winPlayer)
         {
 
             if (gameState == "GameOver")
                 return;
 
-            string winner;
-
-            if (winPlayer == 1)
-            {
-
-                playerOneWins++;
-                playerOne.winCount = playerOneWins;
-
-                winner = playerOne.name;
-
-            }
-
-            else if (winPlayer == 2) 
-            {
-
-                playerTwoWins++;
-                playerTwo.winCount = playerTwoWins;
-
-                winner = playerTwo.name;
-
-            }
-
-            else
-            {
-                return;
-            }
+            winPlayer.WinCount++;
 
             gameState = "GameOver";
 
-            WinCountsChanged?.Invoke(this, EventArgs.Empty);
+            if (winPlayer == playerOne)
+            {
+                playerTwo.OceanBoard.changeVisibilty();
+                playerTwo.TargetBoard.changeVisibilty();
+            }
+            else
+            {
+                playerOne.OceanBoard.changeVisibilty();
+                playerOne.TargetBoard.changeVisibilty();
+            }
 
-            MessageBox.Show($"{winner} wins!!!");
-
+            MessageBox.Show($"{winPlayer.Name} wins!!!");
         }
 
     }

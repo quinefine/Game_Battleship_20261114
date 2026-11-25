@@ -11,117 +11,99 @@ namespace Game_Battleship
 {
     public class Board
     {
-        public int[,] coordinates { get; set; } = new int[10, 10];
+
+        public Board()
+        {  
+        }
+        private int[,] coordinates = new int[10, 10];
+
+            public void SetCoordinates(int row, int col, int value)
+            {
+                coordinates[row, col] = value;
+            }
+
+            public int GetCoordinateValue(int row, int col)
+            {
+                return coordinates[row, col];
+            }
 
         // TODO: Show team coordinateLabels array
 
-        public Tile[,] tiles { get; set; } = new Tile[10, 10];
-
-        // Allows the user to place ships on the board
-        
-        public bool PlaceShips(Board oceanBoard, Ship ship, int row, int column)
-        {
-            bool isValidSpot = true;
-            // Makes sure the ship is placed within the board radius
-
-            if (ship.orientation == 'V')
+        private Tile[,] tiles = new Tile[10, 10];
+            public void addTile(Tile tile)
             {
-                if (row + (ship.size) > 10)
-                {
-                    isValidSpot = false;
-                    MessageBox.Show($"Can't place ship here!\n\nNot enough space for {ship.name}.");
-                }
+                tiles[tile.AlphabetToNumber(tile.YLocation)-1, int.Parse(tile.XLocation) - 1] = tile;
+            }
+            public Tile getTile(int x, int y)
+            {
+                return tiles[x, y];
+            }
+        private Label[,] labels = new Label[2, 10];
+        private Label title;
 
-                // Checks if the space is already taken up by a ship
-                for (int i = 0; i < ship.size; i++)
-                {
-                    if (isValidSpot)
-                    {
-                        if (oceanBoard.coordinates[row + i, column] != 0)
-                        {
-                            isValidSpot = false;
-                            MessageBox.Show("Can't place ship here!\n\nSpot is taken by another ship.");
-                        }
-                    }
-                }
-
-                //if ship spot is valid place ship
-                if (isValidSpot)
-                {
-                    for (int i = 0; i < ship.size; i++)
-                    {
-                        oceanBoard.coordinates[row + i, column] = ship.id;
-                        oceanBoard.tiles[row + i, column].Content = ship.name;
-                    }
-                }
+            public void setTitle(Label titl)
+            {
+                title = titl;
             }
 
-
-            else {
-                // Makes sure the ship is placed within the board radius
-                if (column + (ship.size) > 10)
+            public Label getTitle()
+            {
+                return title;
+            }
+        public void addLabel(Label label, bool isNumber, int num)
+            {
+                if (isNumber)
                 {
-                    isValidSpot = false;
-                    MessageBox.Show($"Can't place ship here!\n\nNot enough space for {ship.name}.");
+                    labels[0, num] = label;
                 }
-
-                // Checks if the space is already taken up by a ship
-                for (int i = 0; i < ship.size; i++)
+                else
                 {
-                    if (isValidSpot)
-                    {
-                        if (coordinates[row, column + i] != 0)
-                        {
-                            isValidSpot = false;
-                            MessageBox.Show("Can't place ship here!\n\nSpot is taken by another ship.");
-                        }
-                    }
-                }
-
-                // If ship spot is valid place ship
-
-                if (isValidSpot)
-                {
-                    for (int i = 0; i < ship.size; i++)
-                    {
-                        coordinates[row, column + i] = ship.id;
-                        tiles[row, column + i].Content = ship.name;
-                    }
+                    labels[1, num] = label;
                 }
             }
-
-            return isValidSpot;
-        }
+        public Label getLabel(bool isNumber, int num)
+            {
+                if (isNumber)
+                {
+                    return labels[0, num];
+                }
+                else
+                {
+                    return labels[1, num];
+                }
+            }
+        // Allows the user to place ships on the board
 
         //TODO
         // Randomizes ship locations on a player's board
 
-        public bool RandomizeShipPlacement(Board oceanBoard, Ship ship, Random random)
+        public bool RandomizeShipPlacement(Board oceanBoard, Ship ship)
         {
 
             // Limits the number of random placements attempted
 
             const int MAX_ATTEMPTS = 1000;
+            Random rand = new Random();
 
             for (int i = 0; i < MAX_ATTEMPTS; i++)
             {
 
                 // Randomizes the orientation of the ship
 
-                if (random.Next(2) == 0)
+                if (rand.Next(2) == 0)
                 {
-                    ship.orientation = 'H';
+                    ship.Orientation = 'H';
                 }
 
                 else
                 {
-                    ship.orientation = 'V';
+                    ship.Orientation = 'V';
                 }
 
                 // Picks a random starting location
 
-                int rowLocation = random.Next(10);
-                int colLocation = random.Next(10);
+                int rowLocation = rand.Next(10);
+                int colLocation = rand.Next(10);
 
                 // Variable for checking that the ship can be placed there
 
@@ -129,15 +111,15 @@ namespace Game_Battleship
 
                 // Ensures that no part of the ship can go outside the board
 
-                if (ship.orientation == 'V' && rowLocation + ship.size > 10)
+                if (ship.Orientation == 'V' && rowLocation + ship.Size > 10)
                     isValidSpot = false;
 
-                else if (ship.orientation == 'H' && colLocation + ship.size > 10)
+                else if (ship.Orientation == 'H' && colLocation + ship.Size > 10)
                     isValidSpot = false;
 
                 // Checks to make sure that no part of the randomly placed ship conflicts with another ship
 
-                for (int ii = 0; ii < ship.size && isValidSpot == true; ii++)
+                for (int ii = 0; ii < ship.Size && isValidSpot == true; ii++)
                 {
 
                     int rowToCheck = rowLocation;
@@ -145,11 +127,11 @@ namespace Game_Battleship
 
                     // Moves down a row for each part of a vertical ship
 
-                    if (ship.orientation == 'V')
+                    if (ship.Orientation == 'V')
                         rowToCheck += ii;
 
                     // Moves to the right of one column for each part of a horizontal ship
-                    else if (ship.orientation == 'H')
+                    else if (ship.Orientation == 'H')
                         colToCheck += ii;
 
                     // A nonzero value means another ship already occupies this cell
@@ -162,7 +144,7 @@ namespace Game_Battleship
 
                 if (isValidSpot == true)
                 {
-                    for (int ii = 0; ii < ship.size; ii++)
+                    for (int ii = 0; ii < ship.Size; ii++)
                     {
 
                         int shipRow = rowLocation;
@@ -170,7 +152,7 @@ namespace Game_Battleship
 
                         // Checks the location of each part of the ship
 
-                        if (ship.orientation == 'V')
+                        if (ship.Orientation == 'V')
                         {
                             shipRow += ii;
                         }
@@ -182,11 +164,11 @@ namespace Game_Battleship
 
                         // Stores the ship's ID
 
-                        oceanBoard.coordinates[shipRow, shipCol] = ship.id;
+                        oceanBoard.coordinates[shipRow, shipCol] = ship.Id;
 
                         // Stores the ship's name
 
-                        oceanBoard.tiles[shipRow, shipCol].Content = ship.name;
+                        oceanBoard.tiles[shipRow, shipCol].Content = ship.Name;
 
                     }
 
@@ -200,6 +182,38 @@ namespace Game_Battleship
 
         }
 
-
+        public void changeVisibilty()
+        {
+            foreach (Tile tile in tiles)
+            {
+                if (tile.Visibility == Visibility.Hidden)
+                {
+                    tile.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    tile.Visibility = Visibility.Hidden;
+                }
+            }
+            foreach (Label label in labels)
+            {
+                if (label.Visibility == Visibility.Hidden)
+                {
+                    label.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    label.Visibility = Visibility.Hidden;
+                }
+            }
+            if (title.Visibility == Visibility.Hidden)
+            {
+                title.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                title.Visibility = Visibility.Hidden;
+            }
+        }
     }
 }

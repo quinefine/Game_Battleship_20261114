@@ -10,13 +10,31 @@ namespace Game_Battleship
 {
     public class Tile : Button
     {
-        public string xLocation;
-        public string yLocation;
-        public string location;
-        public bool isChosen = false;
+        private string xLocation;
+        private string yLocation;
+        private string location;
+        //public bool isChosen = false;
         public void getLocation()
         {
-            MessageBox.Show($"{yLocation}{xLocation}");
+            MessageBox.Show($"{this.yLocation}{this.xLocation}");
+        }
+
+        public string XLocation
+        {
+            get { return this.xLocation; }
+            set { this.xLocation = value; }
+        }
+
+        public string YLocation
+        {
+            get { return this.yLocation; }
+            set { this.yLocation = value; }
+        }
+
+        public string Location
+        {
+            get { return this.location; }
+            set { this.location = value; }
         }
 
         // Translates numerical coordinates to alphabetical coordinates
