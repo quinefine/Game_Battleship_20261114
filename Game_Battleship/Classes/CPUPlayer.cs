@@ -9,6 +9,7 @@ namespace Game_Battleship
 {
     public class CPUPlayer : Player
     {
+
         private char difficulty;
 
         public void CalculateMove()

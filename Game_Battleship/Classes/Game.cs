@@ -19,7 +19,7 @@ namespace Game_Battleship
 
         private Player playerTwo;
 
-        private Scoreboard score;
+        private Scoreboard scoreboard;
 
 
         private string gameState;
@@ -46,10 +46,10 @@ namespace Game_Battleship
             set { this.playerTwo = value; }
         }
 
-        public Scoreboard Score
+        public Scoreboard Scoreboard
         {
-            get { return this.score; }
-            set { this.score = value; }
+            get { return this.scoreboard; }
+            set { this.scoreboard = value; }
         }
 
         public void Start()
@@ -65,17 +65,23 @@ namespace Game_Battleship
 
         // TODO: Win counts are being incremented in EndGame
 
-        public void EndGame(Player winPlayer)
+        public void EndGame(Player winner, Player loser)
         {
-
+            
             if (gameState == "GameOver")
                 return;
 
-            winPlayer.WinCount++;
+            winner.WinCount++;
+            loser.LossCount++;
+
+            List<Player> currentPlayers = new List<Player>();
+
+            currentPlayers.Add(winner);
+            currentPlayers.Add(loser);
 
             gameState = "GameOver";
 
-            if (winPlayer == playerOne)
+            if (winner == playerOne)
             {
                 playerTwo.OceanBoard.changeVisibilty();
                 playerTwo.TargetBoard.changeVisibilty();
@@ -86,7 +92,7 @@ namespace Game_Battleship
                 playerOne.TargetBoard.changeVisibilty();
             }
 
-            MessageBox.Show($"{winPlayer.Name} wins!!!");
+            MessageBox.Show($"{winner.Name} wins!!!");
         }
 
     }

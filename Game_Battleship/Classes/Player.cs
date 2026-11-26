@@ -15,7 +15,16 @@ namespace Game_Battleship
             this.oceanBoard = oceanBoard;
             this.targetBoard = targetBoard;
         }
+
+        public Player(string name, int winCount, int lossCount)
+        {
+            this.name = name;
+            this.winCount = winCount;
+            this.lossCount = lossCount;
+        }
         private int winCount = 0;
+
+        private int lossCount = 0;
 
         private Board targetBoard;
 
@@ -36,6 +45,12 @@ namespace Game_Battleship
         {
             get { return this.winCount; }
             set { this.winCount = value; }
+        }
+
+        public int LossCount
+        {
+            get { return this.lossCount; }
+            set { this.lossCount = value; }
         }
 
         public Board TargetBoard

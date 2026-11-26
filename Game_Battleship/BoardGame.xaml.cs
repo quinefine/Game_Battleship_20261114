@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,6 +31,8 @@ namespace Game_Battleship
         // Creates a new game object
 
         Game game = new Game("Player 1 placing");
+        
+        
 
         // Creates the counter to allow players to place the ships in a fixed linear order        (TEMPORARY!)
 
@@ -47,7 +50,7 @@ namespace Game_Battleship
 
         private void BoardGameWindow_Loaded(object sender, RoutedEventArgs e)
         {
-
+            
             // set up rows and columns
 
             createGrid();
@@ -358,14 +361,16 @@ namespace Game_Battleship
                         }
                     }
                 }
+
                 else
                 {
                     MessageBox.Show("you already placed all your ships");
                 }
             }
-
+            //TODO need to reflect hitships on the opponents oceanboard, need a time delay after player 2 is done placing ships
             else if (clickedTile.Location == "playerOneTarget" && game.getGameState() == "Player 1 attacking")
             {
+
                 int tileContents;
                 currentBoard = game.PlayerOne.TargetBoard;
                 tileContents = game.PlayerTwo.OceanBoard.GetCoordinateValue(row, column);
@@ -387,13 +392,14 @@ namespace Game_Battleship
                     {
                         if (s.IsSunk)
                         {
+                            sunkShips++;
                             actionButton.IsEnabled = true;
                         }
                     }
 
                     if (sunkShips == 5)
                     {
-                        game.EndGame(game.PlayerOne);
+                        game.EndGame(game.PlayerOne, game.PlayerTwo);
                         updateWinLabels();
                     }
                     else
@@ -439,7 +445,7 @@ namespace Game_Battleship
 
                     if (sunkShips == 5)
                     {
-                        game.EndGame(game.PlayerTwo);
+                        game.EndGame(game.PlayerTwo, game.PlayerOne);
                         updateWinLabels();
                     }
                     else
@@ -461,7 +467,7 @@ namespace Game_Battleship
         {
             //concede closes the game
             //To Do: Prompt user with yes no to quit
-            this.Close();
+            //this.Close();
 
             //DEV TOOLS
 
@@ -478,8 +484,8 @@ namespace Game_Battleship
 
             //end game and update labels
 
-            //game.EndGame(game.PlayerOne);
-            //updateWinLabels();
+            game.EndGame(game.PlayerOne, game.PlayerTwo);
+            updateWinLabels();
         }
 
         private void btnAction_Click(object sender, RoutedEventArgs e)
