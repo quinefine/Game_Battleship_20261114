@@ -67,5 +67,11 @@ namespace Game_Battleship
             AboutWindow about = new AboutWindow();
             about.Show();
         }
+
+        private void btnScoreboard_Click(object sender, RoutedEventArgs e)
+        {
+            //TODO need to display the scoreboard
+            //ViewScoreboard();
+        }
     }
 }

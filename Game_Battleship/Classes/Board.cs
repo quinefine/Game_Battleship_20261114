@@ -27,7 +27,7 @@ namespace Game_Battleship
                 return coordinates[row, col];
             }
 
-        // TODO: Show team coordinateLabels array
+        //Show team coordinateLabels array
 
         private Tile[,] tiles = new Tile[10, 10];
             public void addTile(Tile tile)
@@ -74,8 +74,8 @@ namespace Game_Battleship
             }
         // Allows the user to place ships on the board
 
-        //TODO
-        // Randomizes ship locations on a player's board
+        
+        //Randomizes ship locations on a player's board
 
         public bool RandomizeShipPlacement(Board oceanBoard, Ship ship)
         {

@@ -26,6 +26,8 @@ namespace Game_Battleship
 
         private int lossCount = 0;
 
+        private bool wonGame = false;
+
         private Board targetBoard;
 
         private Board oceanBoard;
@@ -76,6 +78,18 @@ namespace Game_Battleship
             get { return this.ships; }
             set { this.ships = value; }
         }
+
+        public void MarkWinner()
+        {
+            this.wonGame = true;
+        }
+
+        public bool WonGame
+        {
+            get { return this.wonGame; }
+        }
+
+        
 
         public virtual void PlaceShip()
         {

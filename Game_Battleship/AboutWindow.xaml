@@ -8,9 +8,9 @@
         Title="About Game" Height="379" Width="540" Background="#FF48A076">
     <Grid>
         <Button x:Name="btnCloseAbout" Content="Close" HorizontalAlignment="Center" Margin="0,0,0,10" VerticalAlignment="Bottom" Click="btnCloseAbout_Click" Width="68"/>
-        <TextBlock x:Name="txblDevelopers" HorizontalAlignment="Left" Margin="35,30,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="86" Width="433"><Run Text="Developers: "/><LineBreak/><Run/><LineBreak/><Run Text="Michael Richmond"/><LineBreak/><Run Text="Natalie Borges Blondet"/><LineBreak/><Run Text="Landon Heezen"/></TextBlock>
-        <TextBlock x:Name="txblVersion" HorizontalAlignment="Left" Margin="35,121,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="74" Width="433"><Run Text="Version:"/><LineBreak/><Run/><LineBreak/><Run Text="Battleship 1.0"/></TextBlock>
-        <TextBlock x:Name="txblDate" HorizontalAlignment="Left" Margin="35,200,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="74" Width="433"><Run Text="Date:"/><LineBreak/><Run/><LineBreak/><Run Text="11/10/2026"/></TextBlock>
+        <TextBlock x:Name="txblDevelopers" HorizontalAlignment="Left" Margin="35,30,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="100" Width="433"><Run Text="Developers: "/><LineBreak/><Run/><LineBreak/><Run Text="Michael Richmond"/><LineBreak/><Run Text="Natalie Borges Blondet"/><LineBreak/><Run Text="Landon Heezen"/><LineBreak/><Run Text="Quintin Nelson"/><LineBreak/><Run/></TextBlock>
+        <TextBlock x:Name="txblVersion" HorizontalAlignment="Left" Margin="35,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Height="74" Width="433"><Run Text="Version:"/><LineBreak/><Run/><LineBreak/><Run Text="Battleship 3.0"/></TextBlock>
+        <TextBlock x:Name="txblDate" HorizontalAlignment="Left" Margin="35,218,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="74" Width="433"><Run Text="Date:"/><LineBreak/><Run/><LineBreak/><Run Text="11/26/2026"/></TextBlock>
 
     </Grid>
 </Window>

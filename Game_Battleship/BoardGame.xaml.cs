@@ -55,7 +55,6 @@ namespace Game_Battleship
 
             createGrid();
 
-            // TODO done
             // Creates the labels above the boards that will manage the scoring
 
             createWinCountLabels();
@@ -186,7 +185,6 @@ namespace Game_Battleship
 
             currentBoard.setTitle(title);
 
-            // TODO done
             // Generates the row letter coordinates (A-J)
 
             for (int r = 0; r < 10; r++)

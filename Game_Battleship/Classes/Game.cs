@@ -54,30 +54,26 @@ namespace Game_Battleship
 
         public void Start()
         {
-
+            //TODO remove this if not needed
         }
 
         public void SwitchTurn()
         {
-            //take the turns. SWITHC TEM
-            //PUSH T HE TOWNWNWNWNWW
+            //TODO move the switch turn mechanics over here?
         }
 
-        // TODO: Win counts are being incremented in EndGame
+        // TODO: Win counts are being incremented in EndGame (may not be necessary to increment win/loss count here)
 
         public void EndGame(Player winner, Player loser)
         {
             
             if (gameState == "GameOver")
                 return;
-
+            winner.MarkWinner();
             winner.WinCount++;
             loser.LossCount++;
 
-            List<Player> currentPlayers = new List<Player>();
-
-            currentPlayers.Add(winner);
-            currentPlayers.Add(loser);
+            this.Scoreboard.UpdateScoreboard(winner, loser);
 
             gameState = "GameOver";
 

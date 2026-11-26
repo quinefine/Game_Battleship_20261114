@@ -12,6 +12,7 @@
         <Button x:Name="btnClose" Content="Close" HorizontalAlignment="Left" Margin="686,374,0,0" VerticalAlignment="Top" Height="43" Width="97" Click="btnClose_Click"/>
         <Label x:Name="lblBattleship" Content="BATTLESHIP" HorizontalAlignment="Center" Height="71" Margin="0,59,0,0" VerticalAlignment="Top" Width="382" FontSize="55" FontWeight="SemiBold" HorizontalContentAlignment="Center"/>
         <Button x:Name="btnAbout" Content="About" HorizontalAlignment="Left" Margin="10,374,0,0" VerticalAlignment="Top" Height="43" Width="96" Click="btnAbout_Click"/>
+        <Button x:Name="btnScoreboard" Content="Scoreboard" HorizontalAlignment="Left" Margin="569,375,0,0" VerticalAlignment="Top" Height="42" Width="95" Click="btnScoreboard_Click"/>
 
     </Grid>
 </Window>
