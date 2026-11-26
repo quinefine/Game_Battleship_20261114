@@ -65,6 +65,7 @@
       <DependentUpon>BoardGame.xaml</DependentUpon>
     </Compile>
     <Compile Include="Classes\Tile.cs" />
+    <Compile Include="Classes\Scoreboard.cs" />
     <Compile Include="StartGameWindow.xaml.cs">
       <DependentUpon>StartGameWindow.xaml</DependentUpon>
     </Compile>

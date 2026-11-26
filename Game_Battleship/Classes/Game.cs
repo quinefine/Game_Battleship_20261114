@@ -19,6 +19,9 @@ namespace Game_Battleship
 
         private Player playerTwo;
 
+        private Scoreboard score;
+
+
         private string gameState;
         
             public void setGameState(string state)
@@ -41,6 +44,12 @@ namespace Game_Battleship
         {
             get { return this.playerTwo; }
             set { this.playerTwo = value; }
+        }
+
+        public Scoreboard Score
+        {
+            get { return this.score; }
+            set { this.score = value; }
         }
 
         public void Start()
