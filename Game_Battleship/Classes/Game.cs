@@ -13,6 +13,7 @@ namespace Game_Battleship
         public Game(string gameState)
         {
             this.gameState = gameState;
+            this.Scoreboard = new Scoreboard();
         }
 
         private Player playerOne;
@@ -73,7 +74,7 @@ namespace Game_Battleship
             winner.WinCount++;
             loser.LossCount++;
 
-            this.Scoreboard.UpdateScoreboard(winner, loser);
+            
 
             gameState = "GameOver";
 

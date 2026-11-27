@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -398,6 +399,7 @@ namespace Game_Battleship
                     if (sunkShips == 5)
                     {
                         game.EndGame(game.PlayerOne, game.PlayerTwo);
+                        this.game.Scoreboard.UpdateScoreboard(game.PlayerOne, game.PlayerTwo);
                         updateWinLabels();
                     }
                     else
@@ -444,6 +446,7 @@ namespace Game_Battleship
                     if (sunkShips == 5)
                     {
                         game.EndGame(game.PlayerTwo, game.PlayerOne);
+                        this.game.Scoreboard.UpdateScoreboard(game.PlayerTwo, game.PlayerOne);
                         updateWinLabels();
                     }
                     else
@@ -483,6 +486,7 @@ namespace Game_Battleship
             //end game and update labels
 
             game.EndGame(game.PlayerOne, game.PlayerTwo);
+            this.game.Scoreboard.UpdateScoreboard(game.PlayerOne, game.PlayerTwo);
             updateWinLabels();
         }
 

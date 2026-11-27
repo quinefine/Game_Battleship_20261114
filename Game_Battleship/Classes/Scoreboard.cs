@@ -116,11 +116,13 @@ namespace Game_Battleship
                 //reading the whole file and adding it to the list of recorded players
                 //this works to happen everytime a game ends
                 //new list is created but it will be reading from the existing file everytime (if there is one)
+                this.recordedPlayers = new List<Player>();
 
                 while (!sr.EndOfStream)
                 {
 
                     string record = sr.ReadLine();
+                    
 
                     if (!string.IsNullOrWhiteSpace(record))
                     {
@@ -139,9 +141,11 @@ namespace Game_Battleship
 
                     }
                 }
+
+                return this.recordedPlayers;
             }
 
-            return this.recordedPlayers;
+            
         }
 
     }
