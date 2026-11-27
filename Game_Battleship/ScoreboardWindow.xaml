@@ -1,0 +1,14 @@
+﻿<Window x:Class="Game_Battleship.ScoreboardWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Game_Battleship"
+        mc:Ignorable="d"
+        Title="Scoreboard" Height="507" Width="469" Background="#FF1C647D">
+    <Grid>
+        <ListBox x:Name="lbxScoreboard" Margin="96,39,96,114"/>
+        <Button x:Name="btnCloseScoreboard" Content="Close" HorizontalAlignment="Center" Margin="0,408,0,0" VerticalAlignment="Top" Height="34" Width="56" Click="btnCloseScoreboard_Click"/>
+
+    </Grid>
+</Window>

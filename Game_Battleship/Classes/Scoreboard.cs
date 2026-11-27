@@ -25,44 +25,53 @@ namespace Game_Battleship
         //each player has a Name, WinCount, and LossCount. These will be displayed on the scoreboard
         //the player also has a bool for WonGame
 
-        //TODO A method to write the list of recordedPlayers onto a listbox or some display so it can be viewed
-
         public void UpdateScoreboard(Player winner, Player loser)
         {
-            currentPlayers = new List<Player>();
-            this.currentPlayers.Add(winner);
-            this.currentPlayers.Add(loser);
-
-            if (File.Exists(filePath))
+            //this method will be bypassed if both players are CPUs
+            if (!(winner is CPUPlayer && loser is CPUPlayer))
             {
-                recordedPlayers = ReadScoreboard();
+                currentPlayers = new List<Player>();
 
-                using (StreamWriter sw = new StreamWriter(filePath))
-                {
-                    //updates scores if on the recordedPlayers list
-                    //adds the player to the recordedPlayers list if not already on it
-                    this.recordedPlayers = CheckUpdateScoreboard(this.recordedPlayers, this.currentPlayers);
+                //only human players will be added to the scoreboard
+                if (winner is HumanPlayer)
+                {this.currentPlayers.Add(winner);}
 
-                    //plan is to re-write the text file after collecting the records on it
-                    foreach (Player r in recordedPlayers)
-                    {
-                        sw.WriteLine($"{r.Name},{r.WinCount},{r.LossCount}");
-                    }
-                    
-                }
-            }
-            else
-            {
-                //if file does not exist then we will create and write the first line to it
-                using (StreamWriter sw = new StreamWriter(filePath, append: true))
+                if (loser is HumanPlayer)
+                {this.currentPlayers.Add(loser);}
+
+                if (File.Exists(filePath))
                 {
-                    foreach (Player c in currentPlayers)
+                    recordedPlayers = ReadScoreboard();
+
+                    using (StreamWriter sw = new StreamWriter(filePath))
                     {
-                        sw.WriteLine($"{c.Name},{c.WinCount},{c.LossCount}");
+                        //updates scores if on the recordedPlayers list
+                        //adds the player to the recordedPlayers list if not already on it
+                        this.recordedPlayers = CheckUpdateScoreboard(this.recordedPlayers, this.currentPlayers);
+
+                        //plan is to re-write the text file after collecting the records on it
+                        foreach (Player r in recordedPlayers)
+                        {
+                            sw.WriteLine($"{r.Name},{r.WinCount},{r.LossCount}");
+                        }
+
                     }
-                    
                 }
+                else
+                {
+                    //if file does not exist then we will create and write the first line to it
+                    using (StreamWriter sw = new StreamWriter(filePath, append: true))
+                    {
+                        foreach (Player c in currentPlayers)
+                        {
+                            sw.WriteLine($"{c.Name},{c.WinCount},{c.LossCount}");
+                        }
+
+                    }
+                }
+
             }
+            
 
         }
 
@@ -126,7 +135,6 @@ namespace Game_Battleship
 
                     if (!string.IsNullOrWhiteSpace(record))
                     {
-                        // TODO make this work
                        
                         string[] parts = record.Split(',');
 

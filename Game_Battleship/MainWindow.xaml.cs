@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -47,7 +48,7 @@ namespace Game_Battleship
             #endregion
 
             StartGameWindow p1 = new StartGameWindow();
-            p1.Show();
+            p1.ShowDialog();
 
         }
 
@@ -59,19 +60,54 @@ namespace Game_Battleship
         private void btnRules_Click(object sender, RoutedEventArgs e)
         {
             RulesWindow rules = new RulesWindow();
-            rules.Show();
+            rules.ShowDialog();
         }
 
         private void btnAbout_Click(object sender, RoutedEventArgs e)
         {
             AboutWindow about = new AboutWindow();
-            about.Show();
+            about.ShowDialog();
         }
 
         private void btnScoreboard_Click(object sender, RoutedEventArgs e)
         {
-            //TODO need to display the scoreboard
-            //ViewScoreboard();
+            string filePath = "Scoreboard.txt";
+            FileInfo info = new FileInfo(filePath);
+
+            //if the file exists and is not empty
+            if (File.Exists(filePath) && info.Length != 0)
+            {
+                ScoreboardWindow scoreboard = new ScoreboardWindow();
+                
+
+                string record;
+                string[] playerInfo;
+                string header = "Player Name \t Wins-Losses";
+                string line;
+
+                scoreboard.lbxScoreboard.Items.Add(header);
+
+                using (StreamReader sr = new StreamReader(filePath))
+                {
+                    while (!sr.EndOfStream)
+                    {
+                        record = sr.ReadLine();
+                        playerInfo = record.Split(',');
+
+                        line = $"{playerInfo[0]} \t\t {playerInfo[1]}-{playerInfo[2]}";
+
+                        scoreboard.lbxScoreboard.Items.Add(line);
+                    }
+                }
+
+                scoreboard.ShowDialog();
+            }
+
+            //else a message box is displayed
+            else
+            {
+                MessageBox.Show("No scores to show!");
+            }
         }
     }
 }

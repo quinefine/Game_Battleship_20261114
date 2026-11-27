@@ -366,7 +366,7 @@ namespace Game_Battleship
                     MessageBox.Show("you already placed all your ships");
                 }
             }
-            //TODO need to reflect hitships on the opponents oceanboard, need a time delay after player 2 is done placing ships
+            //TODO FUNCTIONALITY: need to reflect hitships on the opponents oceanboard, need a time delay after player 2 is done placing ships
             else if (clickedTile.Location == "playerOneTarget" && game.getGameState() == "Player 1 attacking")
             {
 

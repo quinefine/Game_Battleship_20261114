@@ -66,6 +66,9 @@
     </Compile>
     <Compile Include="Classes\Tile.cs" />
     <Compile Include="Classes\Scoreboard.cs" />
+    <Compile Include="ScoreboardWindow.xaml.cs">
+      <DependentUpon>ScoreboardWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="StartGameWindow.xaml.cs">
       <DependentUpon>StartGameWindow.xaml</DependentUpon>
     </Compile>
@@ -99,6 +102,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="ScoreboardWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="StartGameWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

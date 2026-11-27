@@ -5,14 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Game_Battleship"
         mc:Ignorable="d"
-        Title="Main Menu" Height="450" Width="800" Background="#FF1C647D">
+        Title="Main Menu" Height="523" Width="756" Background="#FF2D3B75">
     <Grid x:Name="MyGrid">
-        <Button x:Name="btnStartGame" Content="Start Game" HorizontalAlignment="Center" Margin="0,261,0,0" VerticalAlignment="Top" Height="68" Width="186" FontSize="24" Click="btnStartGame_Click"/>
-        <Button x:Name="btnRules" Content="Rules" HorizontalAlignment="Left" Margin="129,374,0,0" VerticalAlignment="Top" Height="43" Width="96" Click="btnRules_Click"/>
-        <Button x:Name="btnClose" Content="Close" HorizontalAlignment="Left" Margin="686,374,0,0" VerticalAlignment="Top" Height="43" Width="97" Click="btnClose_Click"/>
-        <Label x:Name="lblBattleship" Content="BATTLESHIP" HorizontalAlignment="Center" Height="71" Margin="0,59,0,0" VerticalAlignment="Top" Width="382" FontSize="55" FontWeight="SemiBold" HorizontalContentAlignment="Center"/>
-        <Button x:Name="btnAbout" Content="About" HorizontalAlignment="Left" Margin="10,374,0,0" VerticalAlignment="Top" Height="43" Width="96" Click="btnAbout_Click"/>
-        <Button x:Name="btnScoreboard" Content="Scoreboard" HorizontalAlignment="Left" Margin="569,375,0,0" VerticalAlignment="Top" Height="42" Width="95" Click="btnScoreboard_Click"/>
+        <Button x:Name="btnStartGame" Content="Start Game" HorizontalAlignment="Left" Margin="271,236,0,0" VerticalAlignment="Top" Height="95" Width="208" FontSize="24" Click="btnStartGame_Click"/>
+        <Button x:Name="btnRules" Content="Rules" HorizontalAlignment="Left" Margin="171,376,0,0" VerticalAlignment="Top" Height="43" Width="96" Click="btnRules_Click"/>
+        <Button x:Name="btnClose" Content="Close" HorizontalAlignment="Left" Margin="605,376,0,0" VerticalAlignment="Top" Height="43" Width="97" Click="btnClose_Click"/>
+        <Label x:Name="lblBattleship" Content="BATTLESHIP" HorizontalAlignment="Center" Height="103" Margin="0,77,0,0" VerticalAlignment="Top" Width="400" FontSize="60" FontWeight="Heavy" HorizontalContentAlignment="Center"/>
+        <Button x:Name="btnAbout" Content="About" HorizontalAlignment="Left" Margin="52,376,0,0" VerticalAlignment="Top" Height="43" Width="96" Click="btnAbout_Click"/>
+        <Button x:Name="btnScoreboard" Content="Scoreboard" HorizontalAlignment="Left" Margin="488,377,0,0" VerticalAlignment="Top" Height="42" Width="95" Click="btnScoreboard_Click"/>
 
     </Grid>
 </Window>

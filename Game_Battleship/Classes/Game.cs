@@ -55,15 +55,15 @@ namespace Game_Battleship
 
         public void Start()
         {
-            //TODO remove this if not needed
+            //TODO REFACTORING: remove this if not needed
         }
 
         public void SwitchTurn()
         {
-            //TODO move the switch turn mechanics over here?
+            //TODO REFACTORING: move the switch turn mechanics over here?
         }
 
-        // TODO: Win counts are being incremented in EndGame (may not be necessary to increment win/loss count here)
+        //TODO Win counts are being incremented in EndGame (may not be necessary to increment win/loss count here)
 
         public void EndGame(Player winner, Player loser)
         {
